@@ -15,7 +15,7 @@ def hashFunction(string=None):
     for i in range(len(string)):
         iter=primes[i%17]**(ord(string[i])%13)
         hashValue=hashValue*iter
-    return hashValue%(10**10)
+    return hashValue%(2**31)
 
 def login(database, hashFunction):
     connection = sqlite3.connect(database)
@@ -34,3 +34,5 @@ if __name__=='__main__':
     print(hashFunction('word'))
     print(hashFunction('wore'))
     print('see, too close together, not chaotic enough')
+
+
