@@ -1,31 +1,54 @@
 import sqlite3
-from login import hashFunction, login
-from write import createUser, write
+from login import login
+from writer import writer
 from read import read
 
 class Interface:
     """Each instance should create a user interface that manages the sqlite3 commands for the user
     """
-    def __init__(self, database, login, read, write):
+    def __init__(self, database):
         self.database=database
-        self.loginToken=False
+        self.user_type
+        self.writer
+        self.display
         
 
-    def access(self):
-        if self.loginToken==admin:
-            #retrieve the names of the tables available, present to admin...
-            return things
+    def user_type(self):
+        self.user_type=login()
+        #login returns a user_type
+       
+    def display(self):
+        bool loggedIn=false
+        userExists=input('new or returning user? Select n/r')
+        
+        if userExists=='n':
+            createUser()
         else:
-            print('gtfo newb')
-            #smaller subset of admissible actions
+            self.user_type=login()
+            loggedIn=True
+        
+        
+        while loggedIn:
+            if self.user_type==admin:
+                self.writer = writer()
+                operation=input('Options include search, update, edit, delete, quit: s, u, e, d, q?')
+                if operation=='s': read()
+                
+                elif operation=='q': loggedIn=false
 
+                elif operation == 'e' or 'u' or 'd':
+                    #writer.function calls? something or other
+
+                else #throw exception
+
+            elif self.user_type==user:
+                operation=input('Options are search, quit: s, q?')
+                
+                if operation='q': loggedIn=false
+                else read()
+            else #throw exception
 
 if __name__=='__main__':
 
     session=Interface("chinook.db")
-    userExists=input('new or returning user? Select n/r')
-    if userExists=='n':
-        session.createUser()
-    else:
-        access=session.login()
     #session.access()

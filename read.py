@@ -3,7 +3,7 @@
 
 import sqlite3
 
-def read(database, loginToken=False):
+def read(database):
     """Contains the database reading capabilities
     """
     if not loginToken:
