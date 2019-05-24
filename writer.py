@@ -4,7 +4,7 @@ import sqlite3
 from login import hashFunction
 
 
-class writer():
+class writer(): #writer should inherit from reader so that reader functions are present without duplicating code
 
     def insert(database, adminToken=False):
         """Handles all database write functions, requires adminToken to be passed for security.
