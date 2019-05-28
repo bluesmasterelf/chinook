@@ -25,7 +25,7 @@ class Writer(Reader):
         connection.commit()
         connection.close()
 
-    def admin(database):
+    def createAdmin(database):
         connection = sqlite3.connect(database)
         cursor = connection.cursor()
 
@@ -39,7 +39,7 @@ class Writer(Reader):
         connection.commit()
         connection.close()
 
-    def createUser(database, hashFunction): 
+    def createUser(): 
         """Accepts a database, prompts user for new username and password, writes them to database and returns to login.
         """
         connection = sqlite3.connect(database)
@@ -78,6 +78,8 @@ class Writer(Reader):
 
 
 if __name__=='__main__':
-#test code
-    #create("chinook.db")
-    admin("chinook.db")
+
+    database="chinook.db"
+    writer=Writer(database)
+    writer.createuser()
+

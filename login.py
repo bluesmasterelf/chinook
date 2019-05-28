@@ -2,6 +2,7 @@
 """
 
 import sqlite3
+from read import Reader
       
 def hashFunction(string=None):
     """To serve as a password encryption function; irretrievable type. 
@@ -18,25 +19,33 @@ def hashFunction(string=None):
         hashValue=hashValue*iter
     return hashValue%(2**31)
 
-def login(database, hashFunction):
+def login(database):
     connection = sqlite3.connect(database)
     cursor = connection.cursor()
     loggedin=False
     while not loggedin:
         username=input('enter username:')
         password=input('enter password:')
-            #sql query on logical key username, compare hash against stored value            
-            #if sql.query(username)==self.hashFunction(password):                            
-            #    return privileges         
-            #  
-    return user_type  
+        cursor.execute("SELECT username, encryptedPWD, privileges FROM Users" )
+        result = cursor.fetchall()
+        for r in result:
+            if username == r[0] :
+                if hashFunction(password)==r[1]:
+                    return r[2]
+        print('Username password match not found. Try again.')   
+   
                                                           
 
 if __name__=='__main__':
     #test code
 
     print(hashFunction('word'))
-    print(hashFunction('wore'))
-    print('see, too close together, not chaotic enough')
+    print(hashFunction('xord'))
+    
+
+
+    database="chinook.db"
+    privileges=login(database)
+    print(privileges)
 
 

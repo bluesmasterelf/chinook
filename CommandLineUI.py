@@ -35,8 +35,8 @@ class Interface:
                 
                 elif operation=='q': loggedIn=false
 
-                elif operation == 'e' or operation == 'u' or operation=='d': friend=2#writer.function calls? something or other
-                else : codeword='bird'
+               # elif operation == 'e' or operation == 'u' or operation=='d': #writer.function calls? something or other
+               # else :
 
             elif self.user_type==user:
                 operation=input('Options are search, quit: s, q?')

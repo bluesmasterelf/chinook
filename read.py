@@ -8,11 +8,10 @@ class Reader:
     """
     def __init__(self, database):
         self.database=database
-
         self.connection = sqlite3.connect(self.database)
         self.cursor = self.connection.cursor()
-    #the next block is UI should export to UI class
-    def readInitial(self, table):
+   
+    def readTable(self, table):
         self.cursor.execute("PRAGMA table_info("+table+")")
         result = self.cursor.fetchall()    #Note: returns a list of tuples. Index 1=the data the user
             #is interested in. 0 is primary key, 2 is datatype et cetera
@@ -20,7 +19,7 @@ class Reader:
             print(r[1])
 
     
-    def readTable(self, option, table):
+    def readColumn(self, option, table):
         self.cursor.execute("SELECT "+ option+ " FROM " + table)
         print("fetchall:")
         result = self.cursor.fetchall()
@@ -47,9 +46,9 @@ if __name__=='__main__':
     else: 
         table=input('which table?')
         print("The options appear below.")
-        reader.readInitial(table)
+        reader.readTable(table)
         option=input("What data would you like to view?")
-        reader.readTable(option,table)
+        reader.readColumn(option,table)
 
         option2=input('press return')
         if option2=='test': reader.test()
