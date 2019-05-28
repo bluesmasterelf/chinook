@@ -3,29 +3,28 @@
 
 import sqlite3
 
-def read(database):
+def Reader(database):
     """Contains the database reading capabilities
     """
-    if not loginToken:
-        return -1
+    
 
     connection = sqlite3.connect(database)
     cursor = connection.cursor()
+    #the next block is UI should export to UI class
+    def readInitial(table):
+        cursor.execute("PRAGMA table_info("+table+")")
+        result = cursor.fetchall()    #Note: returns a list of tuples. Index 1=the data the user
+            #is interested in. 0 is primary key, 2 is datatype et cetera
+        for r in result:
+            print(r[1])
 
-    table=input('which table?')
-    print("The options appear below.")
-    cursor.execute("PRAGMA table_info("+table+")")
-    result = cursor.fetchall()    #Note: returns a list of tuples. Index 1=the data the user
-        #is interested in. 0 is primary key, 2 is datatype et cetera
-    for r in result:
-        print(r[1])
-    option=input("What data would you like to view?")
-
-    cursor.execute("SELECT "+ option+ " FROM " + table)
-    print("fetchall:")
-    result = cursor.fetchall()
-    for r in result:
-        print(r[0])
+    
+    def readTable(option, table):
+        cursor.execute("SELECT "+ option+ " FROM " + table)
+        print("fetchall:")
+        result = cursor.fetchall()
+        for r in result:
+            print(r[0])
 
     option2=input("press return")
 
@@ -42,4 +41,4 @@ if __name__=='__main__':
 
     loginToken=True
     database="chinook.db"
-    read(database, loginToken)
+    reader=Reader(database)

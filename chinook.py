@@ -1,7 +1,7 @@
 import sqlite3
 from login import login
 from writer import writer
-from read import read
+from read import reader
 
 class Interface:
     """Each instance should create a user interface that manages the sqlite3 commands for the user
@@ -9,7 +9,6 @@ class Interface:
     def __init__(self, database):
         self.database=database
         self.user_type
-        self.writer
         self.display
         
 
@@ -18,7 +17,7 @@ class Interface:
         #login returns a user_type
        
     def display(self):
-        bool loggedIn=false
+        loggedIn=false
         userExists=input('new or returning user? Select n/r')
         
         if userExists=='n':
@@ -30,24 +29,30 @@ class Interface:
         
         while loggedIn:
             if self.user_type==admin:
-                self.writer = writer()
+                writer = writer()
                 operation=input('Options include search, update, edit, delete, quit: s, u, e, d, q?')
-                if operation=='s': read()
+                if operation=='s': reader()
                 
                 elif operation=='q': loggedIn=false
 
-                elif operation == 'e' or 'u' or 'd':
-                    #writer.function calls? something or other
-
-                else #throw exception
+                elif operation == 'e' or operation == 'u' or operation=='d': friend=2#writer.function calls? something or other
+                else : codeword='bird'
 
             elif self.user_type==user:
                 operation=input('Options are search, quit: s, q?')
                 
-                if operation='q': loggedIn=false
-                else read()
-            else #throw exception
+                if operation=='q': loggedIn=false
+                else: read=reader()
+                table=input('which table?')
+                print("The options appear below.")
+                read.readInitial(table)
+                option=input("What data would you like to view?")
+                read.readTable(option,table)
 
+
+            else:
+               #throw exception
+               fakecode='string'
 if __name__=='__main__':
 
     session=Interface("chinook.db")

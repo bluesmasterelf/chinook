@@ -4,20 +4,12 @@ import sqlite3
 from login import hashFunction
 
 
-class writer(): #writer should inherit from reader so that reader functions are present without duplicating code
+class Writer(Reader): 
+    """Create/Delete for the database itself, CRUD for users within the database, CRUD for the library data
+    """
+          
 
-    def insert(database, adminToken=False):
-        """Handles all database write functions, requires adminToken to be passed for security.
-        """
-        if not adminToken:
-            return 1
-
-        option2=input("Would you like to insert data into this set?")
-        if option2=="yes":
-            print("sorry, that resource hasn't been coded yet.")
-            #most of the syntax is above, need to build options--check diagram
-
-    def create(database):
+    def createTable(database):
         """Creates table 'users' Otherwise, tables should be created by the DBA.
         """
         connection = sqlite3.connect(database)
@@ -46,6 +38,44 @@ class writer(): #writer should inherit from reader so that reader functions are 
 
         connection.commit()
         connection.close()
+
+    def createUser(database, hashFunction): 
+        """Accepts a database, prompts user for new username and password, writes them to database and returns to login.
+        """
+        connection = sqlite3.connect(database)
+        cursor = connection.cursor()
+
+        passwordMatch=False
+        while not passwordMatch:
+
+            username=input('enter username:')
+            password=input('enter password:')
+            password2=input('Enter password again, I do not trust you:')
+            if password==password2:
+                passwordMatch=True
+            else:
+                print('Epic fail. Learn to type, bro')
+
+
+        password=hashFunction(password)
+        user_info = [ (username, password, notAdmin) ]
+        format_str = """INSERT INTO users (user_id, username, password, privileges)
+        VALUES (NULL, "{username}", "{password}", "user");"""
+
+        sql_command = format_str.format(first=user_info[0], password=user_info[1])
+        cursor.execute(sql_command)
+
+        connection.commit()
+        connection.close()
+    #def editUser(database, hashFunction): 
+    #def deleteUser(database, hashFunction): 
+
+    #def addBook():
+    #def editBook():
+
+
+
+
 
 if __name__=='__main__':
 #test code
