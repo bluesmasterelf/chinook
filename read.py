@@ -2,43 +2,54 @@
 """
 
 import sqlite3
-
-def Reader(database):
+  
+class Reader:
     """Contains the database reading capabilities
     """
-    
+    def __init__(self, database):
+        self.database=database
 
-    connection = sqlite3.connect(database)
-    cursor = connection.cursor()
+        self.connection = sqlite3.connect(self.database)
+        self.cursor = self.connection.cursor()
     #the next block is UI should export to UI class
-    def readInitial(table):
-        cursor.execute("PRAGMA table_info("+table+")")
-        result = cursor.fetchall()    #Note: returns a list of tuples. Index 1=the data the user
+    def readInitial(self, table):
+        self.cursor.execute("PRAGMA table_info("+table+")")
+        result = self.cursor.fetchall()    #Note: returns a list of tuples. Index 1=the data the user
             #is interested in. 0 is primary key, 2 is datatype et cetera
         for r in result:
             print(r[1])
 
     
-    def readTable(option, table):
-        cursor.execute("SELECT "+ option+ " FROM " + table)
+    def readTable(self, option, table):
+        self.cursor.execute("SELECT "+ option+ " FROM " + table)
         print("fetchall:")
-        result = cursor.fetchall()
+        result = self.cursor.fetchall()
         for r in result:
             print(r[0])
 
-    option2=input("press return")
+    
 
-    if option2=="test":
+    def test(self):
         print("Here's a join of the name and title columns of the artists and albums tables.")
-        cursor.execute("SELECT Name, Title FROM artists INNER JOIN albums ON albums.Artistid\
-=artists.ArtistId")
-        res=cursor.fetchall()
+        self.cursor.execute("SELECT Name, Title FROM artists INNER JOIN albums ON albums.Artistid=artists.ArtistId")
+        res=self.cursor.fetchall()
         for r in res:
             print(r[0] + ':' + r[1])
 
 
 if __name__=='__main__':
 
-    loginToken=True
     database="chinook.db"
     reader=Reader(database)
+    operation=input('Options are search, quit: s, q?')
+                
+    if operation=='q': loggedIn=false
+    else: 
+        table=input('which table?')
+        print("The options appear below.")
+        reader.readInitial(table)
+        option=input("What data would you like to view?")
+        reader.readTable(option,table)
+
+        option2=input('press return')
+        if option2=='test': reader.test()

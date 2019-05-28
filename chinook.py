@@ -42,13 +42,15 @@ class Interface:
                 operation=input('Options are search, quit: s, q?')
                 
                 if operation=='q': loggedIn=false
-                else: read=reader()
+                else: reader=Reader()
                 table=input('which table?')
                 print("The options appear below.")
-                read.readInitial(table)
+                reader.readInitial(table)
                 option=input("What data would you like to view?")
-                read.readTable(option,table)
+                reader.readTable(option,table)
 
+                option2=input('press return')
+                if option2=='test': reader.test()
 
             else:
                #throw exception
